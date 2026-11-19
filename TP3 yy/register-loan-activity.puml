@@ -1,0 +1,37 @@
+@startuml RegisterLoanActivity
+|Librarian|
+start
+:Receive the member's request;
+:Check member's borrowing rights;
+
+|System|
+if (Rights accepted?) then (yes)
+  |Librarian|
+  :Search for the requested book;
+
+  repeat
+    :Select a copy;
+    |System|
+    if (Copy available?) then (yes)
+      if (Copy reserved for another member?) then (no)
+        :Register the loan;
+        :Update the copy status;
+      else (yes)
+        :Reject this copy;
+        :Display reservation message;
+      endif
+    else (no)
+      :Display copy unavailable;
+    endif
+    |Librarian|
+  repeat while (Another copy?) is (yes)
+else (no)
+  |System|
+  :Refuse borrowing rights;
+  :Display refusal message;
+endif
+
+|Librarian|
+:Inform the member;
+stop
+@enduml
